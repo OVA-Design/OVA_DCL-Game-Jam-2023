@@ -7,14 +7,20 @@ import { BounceScaling, bounceScalingSystem, circularSystem } from './systems'
 import { setupUi } from './ui'
 import { Spinner } from './components'
 import { createCube } from './factory'
+import { skyboxSetup } from './skybox'
 
 // Defining behavior. See `src/systems.ts` file.
 engine.addSystem(circularSystem)
 engine.addSystem(bounceScalingSystem)
 
 export function main() {
+  
   // draw UI
   setupUi()
+
+  // Setup skybox
+  skyboxSetup()
+
 
   // fetch cube from Inspector
   const cube = engine.getEntityOrNullByName("Magic Cube")
