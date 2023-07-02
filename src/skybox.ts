@@ -15,16 +15,16 @@ import { Quaternion, Vector3, Color4 } from '@dcl/sdk/math'
 const sceneSizeX = 6 * 16
 const sceneSizeZ = 6 * 16
 const height = 6 * 16
-const radiusMultiplier = 0.7
+const radiusMultiplier = 0.8
 
 export function skyboxSetup() {
 
   //#region SkyBox
-  const folderNumber = '3'
+  const folderNumber = '1'
 
   //root
   let skyboxRoot = engine.addEntity()
-  Transform.create(skyboxRoot, { position: Vector3.create(sceneSizeX / 2, height / 2 - 16, sceneSizeZ / 2) })
+  Transform.create(skyboxRoot, { position: Vector3.create(sceneSizeX / 2, height / 2, sceneSizeZ / 2) })
 
   //front
   let skyboxPZ = engine.addEntity()
@@ -119,8 +119,8 @@ export function skyboxSetup() {
   //Elevated platform
   let elevatedPlatform = engine.addEntity()
   Transform.create(elevatedPlatform, {
-    position: Vector3.create(sceneSizeX / 2, height / 2, sceneSizeZ / 2),
-    scale: Vector3.create(4, 1, 10)
+    position: Vector3.create(sceneSizeX, height, sceneSizeZ),
+    scale: Vector3.create(0.9, 1, 0.9)
   })
   MeshCollider.setBox(elevatedPlatform)
   MeshRenderer.setBox(elevatedPlatform)

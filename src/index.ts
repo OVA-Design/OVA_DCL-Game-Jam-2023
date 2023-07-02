@@ -18,9 +18,9 @@ export function main() {
   // setupUi()
 
   // Setup skybox
-  // skyboxSetup()
+  skyboxSetup()
 
-  skyVideoSetup()
+  // skyVideoSetup()
 
   //ground plane
   const groundEntity = engine.addEntity()

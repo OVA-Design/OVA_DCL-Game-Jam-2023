@@ -31,9 +31,9 @@ export function skyVideoSetup() {
   
   const videoTexture = Material.Texture.Video({ videoPlayerEntity: sphereScreen })
   
-  Material.setBasicMaterial(sphereScreen, {
+  Material.setPbrMaterial(sphereScreen, {
     texture: videoTexture,
-    // emissiveTexture: videoTexture,
+    emissiveTexture: videoTexture,
     // // bumpTexture: Material.Texture.Common({
     //     src: 'images/sky_normal.jpg',
     // }),
