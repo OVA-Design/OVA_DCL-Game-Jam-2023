@@ -1,6 +1,5 @@
-import { engine, InputAction, inputSystem, Material, MeshCollider, pointerEventsSystem } from '@dcl/sdk/ecs'
+import { engine, GltfContainer, InputAction, inputSystem, Material, MeshCollider, pointerEventsSystem } from '@dcl/sdk/ecs'
 import { Color4 } from '@dcl/sdk/math'
-
 
 import { BounceScaling, bounceScalingSystem, circularSystem } from './systems'
 
@@ -8,22 +7,29 @@ import { setupUi } from './ui'
 import { Spinner } from './components'
 import { createCube } from './factory'
 import { skyboxSetup } from './skybox'
+import { skyVideoSetup } from './videoMaterials'
 
 // Defining behavior. See `src/systems.ts` file.
 engine.addSystem(circularSystem)
 engine.addSystem(bounceScalingSystem)
 
 export function main() {
-  
   // draw UI
-  setupUi()
+  // setupUi()
 
   // Setup skybox
-  skyboxSetup()
+  // skyboxSetup()
 
+  skyVideoSetup()
+
+  //ground plane
+  const groundEntity = engine.addEntity()
+  GltfContainer.create(groundEntity, {
+    src: 'models/ground.glb'
+  })
 
   // fetch cube from Inspector
-  const cube = engine.getEntityOrNullByName("Magic Cube")
+  const cube = engine.getEntityOrNullByName('Magic Cube')
   if (cube) {
     // Give the cube a color
     Material.setPbrMaterial(cube, { albedoColor: Color4.Blue() })
@@ -36,12 +42,11 @@ export function main() {
 
     // Add a click behavior to the cube, spawning new cubes in random places, and adding a bouncy effect for feedback
     pointerEventsSystem.onPointerDown(
-      { entity: cube, opts: { button: InputAction.IA_POINTER, hoverText: "spawn" } },
+      { entity: cube, opts: { button: InputAction.IA_POINTER, hoverText: 'spawn' } },
       () => {
         createCube(1 + Math.random() * 8, Math.random() * 8, 1 + Math.random() * 8, false)
         BounceScaling.createOrReplace(cube)
       }
     )
   }
-
 }
