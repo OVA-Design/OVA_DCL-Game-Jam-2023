@@ -6,8 +6,10 @@ import { BounceScaling, bounceScalingSystem, circularSystem } from './systems'
 import { setupUi } from './ui'
 import { Spinner } from './components'
 import { createCube } from './factory'
-import { skyboxSetup } from './skybox'
+import { skyboxSetup, skyboxSetup2 } from './skybox'
 import { skyVideoSetup } from './videoMaterials'
+import { elevatorSetup } from './elevator'
+import { colliderWallsSetup } from './colliderSetup'
 
 // Defining behavior. See `src/systems.ts` file.
 engine.addSystem(circularSystem)
@@ -19,15 +21,19 @@ export function main() {
 
   // Setup skybox
   skyboxSetup()
+  skyboxSetup2()
 
   // skyVideoSetup()
 
-  //ground plane
-  const groundEntity = engine.addEntity()
-  GltfContainer.create(groundEntity, {
-    src: 'models/ground.glb'
-  })
+  // elevator transition from scene 1 to scene 2
+  elevatorSetup()
 
+  //ground plane
+  // const groundEntity = engine.addEntity()
+  // GltfContainer.create(groundEntity, {
+  //   src: 'models/ground.glb'
+  // })
+  colliderWallsSetup()
   // fetch cube from Inspector
   const cube = engine.getEntityOrNullByName('Magic Cube')
   if (cube) {
