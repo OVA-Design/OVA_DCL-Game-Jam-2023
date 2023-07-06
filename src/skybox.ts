@@ -116,8 +116,6 @@ export function skyboxSetup() {
   })
   //#endregion
 
-
-
   //Elevated platform 1
   let elevatedPlatform = engine.addEntity()
   Transform.create(elevatedPlatform, {
@@ -128,23 +126,24 @@ export function skyboxSetup() {
   MeshRenderer.setCylinder(elevatedPlatform)
   VisibilityComponent.create(elevatedPlatform, { visible: true })
 
+  //Elevated platform 2
+  // let elevatedPlatform2 = engine.addEntity()
+  // Transform.create(elevatedPlatform2, {
+  //   position: Vector3.create(sceneX / 2, sceneY / 2 - 3 + sceneY, sceneZ / 2),
+  //   scale: Vector3.create(sceneX, 1, sceneZ)
+  // })
+  // MeshCollider.setCylinder(elevatedPlatform2)
+  // MeshRenderer.setCylinder(elevatedPlatform2)
+  // VisibilityComponent.create(elevatedPlatform2, { visible: true })
 
   //set transparent color material for testing
   let transparentRed = Color4.create(1, 0, 0, 0.5)
   Material.setPbrMaterial(elevatedPlatform, {
     albedoColor: transparentRed
   })
-
-
-  // //Elevated platform 2
-  // let elevatedPlatform2 = engine.addEntity()
-  // Transform.create(elevatedPlatform2, {
-  //   position: Vector3.create(sceneX / 2, sceneY / 2 + sceneY, sceneZ / 2),
-  //   scale: Vector3.create(sceneX, 1, sceneZ)
+  // Material.setPbrMaterial(elevatedPlatform2, {
+  //   albedoColor: transparentRed
   // })
-  // MeshCollider.setCylinder(elevatedPlatform2)
-  // MeshRenderer.setCylinder(elevatedPlatform2)
-  // VisibilityComponent.create(elevatedPlatform2, { visible: true })
 
   //Teleport to the platform
   const clickableEntity = engine.addEntity()

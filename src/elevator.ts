@@ -14,7 +14,7 @@ Transform.create(elevatorEntity, {
   position: Vector3.create(48, 48-1.5, 48)
 })
 startPath(elevatorEntity, [
-    Vector3.create(48, 45, 48), 
+    Vector3.create(48, 4, 48), 
     Vector3.create(48, 148.5, 48), 
     ],
      8, false, false)

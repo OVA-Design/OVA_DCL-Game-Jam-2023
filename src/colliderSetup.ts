@@ -20,8 +20,8 @@ export function colliderWallsSetup() {
   //front
   const wallFront = engine.addEntity()
   Transform.create(wallFront, {
-    position: Vector3.create(0, 0, 24),
-    scale: Vector3.create(48, 48, 48),
+    position: Vector3.create(0, 12, 24),
+    scale: Vector3.create(48, 24, 48),
     parent: colliderRoot
   })
   MeshCollider.setPlane(wallFront)
@@ -33,8 +33,8 @@ export function colliderWallsSetup() {
   //back
   const wallBack = engine.addEntity()
   Transform.create(wallBack, {
-    position: Vector3.create(0, 0, -24),
-    scale: Vector3.create(48, 48, 48),
+    position: Vector3.create(0, 12, -24),
+    scale: Vector3.create(48, 24, 48),
     rotation: Quaternion.fromEulerDegrees(0, 180, 0),
     parent: colliderRoot
   })
@@ -61,7 +61,7 @@ export function colliderWallsSetup() {
   //Bottom
   const wallBottom = engine.addEntity()
   Transform.create(wallBottom, {
-    position: Vector3.create(0, -24, 0),
+    position: Vector3.create(0, 0, 0),
     scale: Vector3.create(48, 48, 48),
     rotation: Quaternion.fromEulerDegrees(90, 0, 0),
     parent: colliderRoot
@@ -75,8 +75,8 @@ export function colliderWallsSetup() {
   //Right
   const wallRight = engine.addEntity()
   Transform.create(wallRight, {
-    position: Vector3.create(24, 0, 0),
-    scale: Vector3.create(48, 48, 48),
+    position: Vector3.create(24, 12, 0),
+    scale: Vector3.create(48, 24, 48),
     rotation: Quaternion.fromEulerDegrees(0, 90, 0),
     parent: colliderRoot
   })
@@ -89,8 +89,8 @@ export function colliderWallsSetup() {
   //Left
   const wallLeft = engine.addEntity()
   Transform.create(wallLeft, {
-    position: Vector3.create(-24, 0, 0),
-    scale: Vector3.create(48, 48, 48),
+    position: Vector3.create(-24, 12, 0),
+    scale: Vector3.create(48, 24, 48),
     rotation: Quaternion.fromEulerDegrees(0, -90, 0),
     parent: colliderRoot
   })
@@ -100,4 +100,14 @@ export function colliderWallsSetup() {
     albedoColor: transparentPurple
   })
   //#endregion
+
+  // const wallB = engine.addEntity()
+  // Transform.create(wallB, {
+  //   position: Vector3.create(48, 48 +1.5 +97.5+1, 48),
+  //   scale: Vector3.create(42, 46, 42),
+  //   rotation: Quaternion.fromEulerDegrees(90, 0, 0),
+  // })
+  // MeshCollider.setPlane(wallB)
+  // MeshRenderer.setPlane(wallB)
+
 }
