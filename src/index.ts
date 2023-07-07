@@ -32,6 +32,8 @@ export function main() {
 
   colliderWallsSetup()
 
+
+  // Import balloon game at scene 2
   ballGameSetup()
 
 
