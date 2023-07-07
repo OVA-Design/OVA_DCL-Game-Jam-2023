@@ -11,6 +11,7 @@ import { skyVideoSetup } from './videoMaterials'
 import { elevatorSetup } from './elevator'
 import { colliderWallsSetup } from './colliderSetup'
 import { teleportSetup } from './teleport'
+import { ballGameSetup } from './ballGame'
 
 // Defining behavior. See `src/systems.ts` file.
 engine.addSystem(circularSystem)
@@ -22,16 +23,16 @@ export function main() {
   teleportSetup()
   // Setup skybox
   skyboxSetup()
-  // skyboxSetup2()
+  skyboxSetup2()
 
   // skyVideoSetup()
 
   // elevator transition from scene 1 to scene 2
-  // elevatorSetup()
+  elevatorSetup()
 
   colliderWallsSetup()
 
-
+  ballGameSetup()
 
 
   // Import models
@@ -63,3 +64,5 @@ export function main() {
   //   )
   // }
 }
+
+

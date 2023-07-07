@@ -1,4 +1,5 @@
 import {
+  AudioSource,
   Entity,
   engine,
   Transform,
@@ -48,4 +49,13 @@ export function createCube(x: number, y: number, z: number, spawner = true): Ent
   }
 
   return entity
+}
+
+
+export function playSound(soundPath: string) {
+    AudioSource.create(engine.addEntity(), {
+      audioClipUrl: soundPath,
+      loop: false,
+      playing: true
+    })
 }
