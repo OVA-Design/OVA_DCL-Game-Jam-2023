@@ -1,62 +1,25 @@
 import {
   AudioSource,
-  Entity,
   engine,
   Transform,
-  MeshRenderer,
-  MeshCollider,
-  PointerEvents,
-  PointerEventType,
-  InputAction,
-  Material
 } from '@dcl/sdk/ecs'
-import { Cube, Spinner } from './components'
-import { Color4 } from '@dcl/sdk/math'
-import { getRandomHexColor } from './utils'
+import { Vector3 } from '@dcl/sdk/math'
+import * as utils from '@dcl-sdk/utils'
 
-// Cube factory
-export function createCube(x: number, y: number, z: number, spawner = true): Entity {
-  const entity = engine.addEntity()
 
-  // Used to track the cubes
-  Cube.create(entity)
-
-  Transform.create(entity, { position: { x, y, z } })
-
-  // set how the cube looks and collides
-  MeshRenderer.setBox(entity)
-  MeshCollider.setBox(entity)
-  Material.setPbrMaterial(entity, { albedoColor: Color4.fromHexString(getRandomHexColor()) })
-
-  // Make the cube spin, with the circularSystem
-  Spinner.create(entity, { speed: 10 * Math.random() })
-
-  // if it is a spawner, then we set the pointer hover feedback
-  if (spawner) {
-    PointerEvents.create(entity, {
-      pointerEvents: [
-        {
-          eventType: PointerEventType.PET_DOWN,
-          eventInfo: {
-            button: InputAction.IA_PRIMARY,
-            hoverText: 'Press E to spawn',
-            maxDistance: 100,
-            showFeedback: true
-          }
-        }
-      ]
-    })
-  }
-
-  return entity
-}
-
-// play sound 
+// play sound
 export function playSound(soundPath: string, volume?: number) {
-    AudioSource.create(engine.addEntity(), {
-      audioClipUrl: soundPath,
-      loop: false,
-      playing: true,
-      volume: 1
-    })
+  const soundEntity = engine.addEntity()
+  AudioSource.create(soundEntity, {
+    audioClipUrl: soundPath,
+    loop: false,
+    playing: true,
+    volume: 1
+  })
+  Transform.create(soundEntity, { position: Vector3.create(48, 98, 48) })
+
+  utils.timers.setTimeout(() => {
+    const playerPosition = Transform.getMutable(engine.PlayerEntity).position
+    Transform.create(soundEntity, { position: playerPosition })
+  }, 10000) //millisecond delay
 }

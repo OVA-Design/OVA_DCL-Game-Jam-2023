@@ -29,10 +29,10 @@ export class Ball {
     if (this._p) return
     this._p = true
 
-    const timeID = timers.setInterval(() => {
-      let size = (Math.random() + 1) * Transform.getMutable(this._e).scale.x
-      Transform.getMutable(this._e).scale = Vector3.create(size, size, size)
-    }, 200)
+    // const timeID = timers.setInterval(() => {
+    //   let size = (Math.random() + 1) * Transform.getMutable(this._e).scale.x
+    //   Transform.getMutable(this._e).scale = Vector3.create(size, size, size)
+    // }, 200)
 
     // play sound clicked
     playSound('sounds/pop.mp3', 10)
@@ -42,7 +42,7 @@ export class Ball {
 
     // remove model
     timers.setTimeout(() => {
-      timers.clearInterval(timeID)
+      // timers.clearInterval(timeID)
       engine.removeEntity(this._e)
       // console.log('removeEntity(this._e)', this._e)
     }, 500)
@@ -53,7 +53,7 @@ export class Ball {
   }
 
   constructor(src: string, public radius: number = 1, transform?: Partial<TransformType>) {
-    console.log('src', src)
+    // console.log('src', src)
     this._e = engine.addEntity()
     GltfContainer.create(this._e, { src })
     Transform.create(this._e, transform)
@@ -63,7 +63,7 @@ export class Ball {
         opts: {
           button: InputAction.IA_POINTER,
           showFeedback: true,
-          hoverText: 'Pop Balloon'
+          hoverText: 'Pop to Clear View'
         }
       },
       (event: PBPointerEventsResult) => {

@@ -1,22 +1,26 @@
 /*
   IMPORTANT: The tsconfig.json has been configured to include "node_modules/cannon/build/cannon.js"
 */
-import { GltfContainer, Transform, engine } from '@dcl/sdk/ecs'
+import { GltfContainer, Material, MeshCollider, MeshRenderer, Transform, engine } from '@dcl/sdk/ecs'
 import { Ball } from './ball'
 import { loadColliders } from './wallCollidersSetup'
 import {} from '@dcl-sdk/utils'
-import { Vector3 } from '@dcl/sdk/math'
+import { Quaternion, Vector3 } from '@dcl/sdk/math'
 import * as CANNON from 'cannon/build/cannon'
 import * as utils from '@dcl-sdk/utils'
 
 
 export function ballGameSetup() {
+
   // Ball shapes
   const ballShapes = [
-    // 'models/BalloonEmit.glb',
-    'models/BalloonCollider.glb'
+    'models/BalloonCollider.glb',
+    'models/Balloon_GlowingTrans.glb',
+    'models/BalloonCollider.glb',
+    'models/Balloon_GlowingTransM.glb',
+    'models/BalloonCollider.glb',
   ]
-  const ballCount = 250 // Total number of balls
+  const ballCount = 150 // Total number of balls
   const balls: Ball[] = [] // Store balls
   const ballBodies: CANNON.Body[] = [] // Store ball bodies
   let ballHeight = 147 // Start height for the balls
@@ -55,8 +59,6 @@ export function ballGameSetup() {
   world.addContactMaterial(ballPhysicsContactMaterial)
 
   // Create random balls and positions
-  utils.timers.setTimeout(() => {
-//
 
   for (let i = 0; i < ballCount; i++) {
     const x: number = Math.floor(Math.random() * 3) + 46
@@ -86,7 +88,7 @@ export function ballGameSetup() {
     world.addBody(ballBody) // Add body to the world
     ballBodies.push(ballBody)
   }
-}, 120000) //millisecond
+
   // Sync Physics System
   const fixedTimeStep: number = 1.0 / 60.0 // seconds
   const maxSubSteps: number = 3

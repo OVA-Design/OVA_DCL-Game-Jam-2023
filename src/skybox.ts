@@ -11,7 +11,6 @@ import {
   inputSystem,
   pointerEventsSystem
 } from '@dcl/sdk/ecs'
-import { movePlayerTo } from '~system/RestrictedActions'
 import { Quaternion, Vector3, Color4, Color3 } from '@dcl/sdk/math'
 import * as utils from '@dcl-sdk/utils'
 
@@ -197,73 +196,16 @@ export function skyboxSetup() {
     // emissiveColor: Color3.White(),
   })
 
+  utils.timers.setTimeout(() => {
+    VideoPlayer.deleteFrom(skyboxPZ)
+    VideoPlayer.deleteFrom(skyboxNZ)
+    VideoPlayer.deleteFrom(skyboxPY)
+    VideoPlayer.deleteFrom(skyboxNY)
+    VideoPlayer.deleteFrom(skyboxPX)
+    VideoPlayer.deleteFrom(skyboxNX)
+  }, 29000) //millisecond delay 1s = 1000ms
+
   //#endregion
-
-  //Elevated platform 1
-  // let elevatedPlatform = engine.addEntity()
-  // Transform.create(elevatedPlatform, {
-  //   position: Vector3.create(sceneX / 2, sceneY / 2 - 3, sceneZ / 2),
-  //   scale: Vector3.create(sceneX, 1, sceneZ)
-  // })
-  // MeshCollider.setCylinder(elevatedPlatform)
-  // MeshRenderer.setCylinder(elevatedPlatform)
-  // VisibilityComponent.create(elevatedPlatform, { visible: true })
-
-  //Elevated platform 2
-  // let elevatedPlatform2 = engine.addEntity()
-  // Transform.create(elevatedPlatform2, {
-  //   position: Vector3.create(sceneX / 2, sceneY / 2 - 3 + sceneY, sceneZ / 2),
-  //   scale: Vector3.create(sceneX, 1, sceneZ)
-  // })
-  // MeshCollider.setCylinder(elevatedPlatform2)
-  // MeshRenderer.setCylinder(elevatedPlatform2)
-  // VisibilityComponent.create(elevatedPlatform2, { visible: true })
-
-  //set transparent color material for testing
-  // let transparentRed = Color4.create(1, 0, 0, 0.5)
-  // Material.setPbrMaterial(elevatedPlatform, {
-  //   albedoColor: transparentRed
-  // })
-  // Material.setPbrMaterial(elevatedPlatform2, {
-  //   albedoColor: transparentRed
-  // })
-
-  //Teleport to the platform
-  const clickableEntity = engine.addEntity()
-  MeshRenderer.setBox(clickableEntity)
-  MeshCollider.setBox(clickableEntity)
-  Transform.create(clickableEntity, { position: Vector3.create(6, 1, 6) })
-
-  pointerEventsSystem.onPointerDown(
-    {
-      entity: clickableEntity,
-      opts: {
-        button: InputAction.IA_POINTER,
-        hoverText: 'Beam me up'
-      }
-    },
-    function () {
-      movePlayerTo({ newRelativePosition: Vector3.create(sceneX / 2, sceneY / 2, sceneZ / 2) })
-    }
-  )
-
-  const clickableEntity2 = engine.addEntity()
-  MeshRenderer.setBox(clickableEntity2)
-  MeshCollider.setBox(clickableEntity2)
-  Transform.create(clickableEntity2, { position: Vector3.create(sceneX / 2, 1, sceneZ / 2) })
-
-  pointerEventsSystem.onPointerDown(
-    {
-      entity: clickableEntity2,
-      opts: {
-        button: InputAction.IA_POINTER,
-        hoverText: 'Beam me up'
-      }
-    },
-    function () {
-      movePlayerTo({ newRelativePosition: Vector3.create(sceneX / 2, sceneY / 2, sceneZ / 2) })
-    }
-  )
 }
 
 ////// Scene 2 skybox
@@ -277,7 +219,8 @@ export function skyboxSetup2() {
   Transform.create(skyboxRoot, { position: Vector3.create(sceneX / 2, sceneY / 2 + sceneY + 3, sceneZ / 2) })
 
   // timer to move player to scene 2
-  utils.timers.setTimeout(() => {
+
+
     //front
     let skyboxPZ = engine.addEntity()
     Transform.create(skyboxPZ, {
@@ -286,11 +229,24 @@ export function skyboxSetup2() {
       parent: skyboxRoot
     })
     MeshRenderer.setPlane(skyboxPZ)
-    Material.setBasicMaterial(skyboxPZ, {
-      texture: Material.Texture.Common({
-        src: 'images/skybox/' + folderNumber + '/pz.png'
-      })
-    })
+    // Material.setBasicMaterial(skyboxPZ, {
+    //   texture: Material.Texture.Common({
+    //     src: 'images/skybox/' + folderNumber + '/pz.png'
+    //   })
+    // })
+      // import videos as texture maps
+  VideoPlayer.create(skyboxPZ, {
+    src: 'videos/2/PZ.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureFront = Material.Texture.Video({ videoPlayerEntity: skyboxPZ })
+  Material.setBasicMaterial(skyboxPZ, {
+    texture: videoTextureFront
+    // emissiveTexture: videoTextureFront
+  })
 
     //back
     let skyboxNZ = engine.addEntity()
@@ -301,11 +257,24 @@ export function skyboxSetup2() {
       parent: skyboxRoot
     })
     MeshRenderer.setPlane(skyboxNZ)
-    Material.setBasicMaterial(skyboxNZ, {
-      texture: Material.Texture.Common({
-        src: 'images/skybox/' + folderNumber + '/nz.png'
-      })
-    })
+    // Material.setBasicMaterial(skyboxNZ, {
+    //   texture: Material.Texture.Common({
+    //     src: 'images/skybox/' + folderNumber + '/nz.png'
+    //   })
+    // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxNZ, {
+    src: 'videos/2/NZ.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureBack = Material.Texture.Video({ videoPlayerEntity: skyboxNZ })
+  Material.setBasicMaterial(skyboxNZ, {
+    texture: videoTextureBack
+    // emissiveTexture: videoTextureBack
+  })
 
     //Top
     let skyboxPY = engine.addEntity()
@@ -316,11 +285,24 @@ export function skyboxSetup2() {
       parent: skyboxRoot
     })
     MeshRenderer.setPlane(skyboxPY)
-    Material.setBasicMaterial(skyboxPY, {
-      texture: Material.Texture.Common({
-        src: 'images/skybox/' + folderNumber + '/py.png'
-      })
-    })
+    // Material.setBasicMaterial(skyboxPY, {
+    //   texture: Material.Texture.Common({
+    //     src: 'images/skybox/' + folderNumber + '/py.png'
+    //   })
+    // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxPY, {
+    src: 'videos/2/PY.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureTop = Material.Texture.Video({ videoPlayerEntity: skyboxPY })
+  Material.setBasicMaterial(skyboxPY, {
+    texture: videoTextureTop
+    // emissiveTexture: videoTextureTop
+  })
 
     //Bottom
     let skyboxNY = engine.addEntity()
@@ -331,11 +313,24 @@ export function skyboxSetup2() {
       parent: skyboxRoot
     })
     MeshRenderer.setPlane(skyboxNY)
-    Material.setBasicMaterial(skyboxNY, {
-      texture: Material.Texture.Common({
-        src: 'images/skybox/' + folderNumber + '/ny.png'
-      })
-    })
+    // Material.setBasicMaterial(skyboxNY, {
+    //   texture: Material.Texture.Common({
+    //     src: 'images/skybox/' + folderNumber + '/ny.png'
+    //   })
+    // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxNY, {
+    src: 'videos/2/NY.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureBottom = Material.Texture.Video({ videoPlayerEntity: skyboxNY })
+  Material.setBasicMaterial(skyboxNY, {
+    texture: videoTextureBottom
+    // emissiveTexture: videoTextureBottom
+  })
 
     //Right
     let skyboxPX = engine.addEntity()
@@ -346,11 +341,24 @@ export function skyboxSetup2() {
       parent: skyboxRoot
     })
     MeshRenderer.setPlane(skyboxPX)
-    Material.setBasicMaterial(skyboxPX, {
-      texture: Material.Texture.Common({
-        src: 'images/skybox/' + folderNumber + '/px.png'
-      })
-    })
+    // Material.setBasicMaterial(skyboxPX, {
+    //   texture: Material.Texture.Common({
+    //     src: 'images/skybox/' + folderNumber + '/px.png'
+    //   })
+    // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxPX, {
+    src: 'videos/2/PX.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureRight = Material.Texture.Video({ videoPlayerEntity: skyboxPX })
+  Material.setBasicMaterial(skyboxPX, {
+    texture: videoTextureRight
+    // emissiveTexture: videoTextureRight
+  })
 
     // Left
     let skyboxNX = engine.addEntity()
@@ -361,12 +369,27 @@ export function skyboxSetup2() {
       parent: skyboxRoot
     })
     MeshRenderer.setPlane(skyboxNX)
-    Material.setBasicMaterial(skyboxNX, {
-      texture: Material.Texture.Common({
-        src: 'images/skybox/' + folderNumber + '/nx.png'
-      })
-    })
-  }, 120000) //millisecond delay
+    // Material.setBasicMaterial(skyboxNX, {
+    //   texture: Material.Texture.Common({
+    //     src: 'images/skybox/' + folderNumber + '/nx.png'
+    //   })
+    // })
+      // import videos as texture maps
+  VideoPlayer.create(skyboxNX, {
+    src: 'videos/2/NX.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureLeft = Material.Texture.Video({ videoPlayerEntity: skyboxNX })
+  Material.setBasicMaterial(skyboxNX, {
+    texture: videoTextureLeft
+    // emissiveTexture: videoTextureLeft,
+    // emissiveIntensity: 1,
+    // emissiveColor: Color3.White(),
+  })
+
 
   //#endregion
 }
