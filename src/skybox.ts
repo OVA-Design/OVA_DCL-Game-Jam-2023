@@ -6,12 +6,14 @@ import {
   Material,
   MeshRenderer,
   VisibilityComponent,
+  VideoPlayer,
   PointerEventType,
   inputSystem,
   pointerEventsSystem
 } from '@dcl/sdk/ecs'
 import { movePlayerTo } from '~system/RestrictedActions'
-import { Quaternion, Vector3, Color4 } from '@dcl/sdk/math'
+import { Quaternion, Vector3, Color4, Color3 } from '@dcl/sdk/math'
+import * as utils from '@dcl-sdk/utils'
 
 const sceneX = 6 * 16
 const sceneY = 6 * 16
@@ -24,7 +26,7 @@ export function skyboxSetup() {
 
   //root
   let skyboxRoot = engine.addEntity()
-  Transform.create(skyboxRoot, { position: Vector3.create(sceneX / 2, sceneY / 2 +1.5, sceneZ / 2) })
+  Transform.create(skyboxRoot, { position: Vector3.create(sceneX / 2, sceneY / 2 + 1.5, sceneZ / 2) })
 
   //front
   let skyboxPZ = engine.addEntity()
@@ -34,10 +36,23 @@ export function skyboxSetup() {
     parent: skyboxRoot
   })
   MeshRenderer.setPlane(skyboxPZ)
+  // Material.setBasicMaterial(skyboxPZ, {
+  //   texture: Material.Texture.Common({
+  //     src: 'images/skybox/' + folderNumber + '/pz.png'
+  //   })
+  // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxPZ, {
+    src: 'videos/1/PZ.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureFront = Material.Texture.Video({ videoPlayerEntity: skyboxPZ })
   Material.setBasicMaterial(skyboxPZ, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/pz.png'
-    })
+    texture: videoTextureFront
+    // emissiveTexture: videoTextureFront
   })
 
   //back
@@ -49,10 +64,23 @@ export function skyboxSetup() {
     parent: skyboxRoot
   })
   MeshRenderer.setPlane(skyboxNZ)
+  // Material.setBasicMaterial(skyboxNZ, {
+  //   texture: Material.Texture.Common({
+  //     src: 'images/skybox/' + folderNumber + '/nz.png'
+  //   })
+  // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxNZ, {
+    src: 'videos/1/NZ.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureBack = Material.Texture.Video({ videoPlayerEntity: skyboxNZ })
   Material.setBasicMaterial(skyboxNZ, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/nz.png'
-    })
+    texture: videoTextureBack
+    // emissiveTexture: videoTextureBack
   })
 
   //Top
@@ -64,10 +92,23 @@ export function skyboxSetup() {
     parent: skyboxRoot
   })
   MeshRenderer.setPlane(skyboxPY)
+  // Material.setBasicMaterial(skyboxPY, {
+  //   texture: Material.Texture.Common({
+  //     src: 'images/skybox/' + folderNumber + '/py.png'
+  //   })
+  // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxPY, {
+    src: 'videos/1/PY.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureTop = Material.Texture.Video({ videoPlayerEntity: skyboxPY })
   Material.setBasicMaterial(skyboxPY, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/py.png'
-    })
+    texture: videoTextureTop
+    // emissiveTexture: videoTextureTop
   })
 
   //Bottom
@@ -79,10 +120,23 @@ export function skyboxSetup() {
     parent: skyboxRoot
   })
   MeshRenderer.setPlane(skyboxNY)
+  // Material.setBasicMaterial(skyboxNY, {
+  //   texture: Material.Texture.Common({
+  //     src: 'images/skybox/' + folderNumber + '/ny.png'
+  //   })
+  // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxNY, {
+    src: 'videos/1/NY.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureBottom = Material.Texture.Video({ videoPlayerEntity: skyboxNY })
   Material.setBasicMaterial(skyboxNY, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/ny.png'
-    })
+    texture: videoTextureBottom
+    // emissiveTexture: videoTextureBottom
   })
 
   //Right
@@ -94,10 +148,23 @@ export function skyboxSetup() {
     parent: skyboxRoot
   })
   MeshRenderer.setPlane(skyboxPX)
+  // Material.setBasicMaterial(skyboxPX, {
+  //   texture: Material.Texture.Common({
+  //     src: 'images/skybox/' + folderNumber + '/px.png'
+  //   })
+  // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxPX, {
+    src: 'videos/1/PX.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
+  })
+  const videoTextureRight = Material.Texture.Video({ videoPlayerEntity: skyboxPX })
   Material.setBasicMaterial(skyboxPX, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/px.png'
-    })
+    texture: videoTextureRight
+    // emissiveTexture: videoTextureRight
   })
 
   // Left
@@ -109,22 +176,38 @@ export function skyboxSetup() {
     parent: skyboxRoot
   })
   MeshRenderer.setPlane(skyboxNX)
-  Material.setBasicMaterial(skyboxNX, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/nx.png'
-    })
+  // Material.setBasicMaterial(skyboxNX, {
+  //   texture: Material.Texture.Common({
+  //     src: 'images/skybox/' + folderNumber + '/nx.png'
+  //   })
+  // })
+  // import videos as texture maps
+  VideoPlayer.create(skyboxNX, {
+    src: 'videos/1/NX.mp4',
+    playing: true,
+    loop: true,
+    volume: 0.3,
+    playbackRate: 1
   })
+  const videoTextureLeft = Material.Texture.Video({ videoPlayerEntity: skyboxNX })
+  Material.setBasicMaterial(skyboxNX, {
+    texture: videoTextureLeft
+    // emissiveTexture: videoTextureLeft,
+    // emissiveIntensity: 1,
+    // emissiveColor: Color3.White(),
+  })
+
   //#endregion
 
   //Elevated platform 1
-  let elevatedPlatform = engine.addEntity()
-  Transform.create(elevatedPlatform, {
-    position: Vector3.create(sceneX / 2, sceneY / 2-3, sceneZ / 2),
-    scale: Vector3.create(sceneX, 1, sceneZ)
-  })
-  MeshCollider.setCylinder(elevatedPlatform)
-  MeshRenderer.setCylinder(elevatedPlatform)
-  VisibilityComponent.create(elevatedPlatform, { visible: true })
+  // let elevatedPlatform = engine.addEntity()
+  // Transform.create(elevatedPlatform, {
+  //   position: Vector3.create(sceneX / 2, sceneY / 2 - 3, sceneZ / 2),
+  //   scale: Vector3.create(sceneX, 1, sceneZ)
+  // })
+  // MeshCollider.setCylinder(elevatedPlatform)
+  // MeshRenderer.setCylinder(elevatedPlatform)
+  // VisibilityComponent.create(elevatedPlatform, { visible: true })
 
   //Elevated platform 2
   // let elevatedPlatform2 = engine.addEntity()
@@ -137,10 +220,10 @@ export function skyboxSetup() {
   // VisibilityComponent.create(elevatedPlatform2, { visible: true })
 
   //set transparent color material for testing
-  let transparentRed = Color4.create(1, 0, 0, 0.5)
-  Material.setPbrMaterial(elevatedPlatform, {
-    albedoColor: transparentRed
-  })
+  // let transparentRed = Color4.create(1, 0, 0, 0.5)
+  // Material.setPbrMaterial(elevatedPlatform, {
+  //   albedoColor: transparentRed
+  // })
   // Material.setPbrMaterial(elevatedPlatform2, {
   //   albedoColor: transparentRed
   // })
@@ -193,95 +276,97 @@ export function skyboxSetup2() {
   let skyboxRoot = engine.addEntity()
   Transform.create(skyboxRoot, { position: Vector3.create(sceneX / 2, sceneY / 2 + sceneY + 3, sceneZ / 2) })
 
-  //front
-  let skyboxPZ = engine.addEntity()
-  Transform.create(skyboxPZ, {
-    position: Vector3.create(0, 0, sceneZ / 2),
-    scale: Vector3.create(sceneX, sceneY, sceneZ),
-    parent: skyboxRoot
-  })
-  MeshRenderer.setPlane(skyboxPZ)
-  Material.setBasicMaterial(skyboxPZ, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/pz.png'
+  // timer to move player to scene 2
+  utils.timers.setTimeout(() => {
+    //front
+    let skyboxPZ = engine.addEntity()
+    Transform.create(skyboxPZ, {
+      position: Vector3.create(0, 0, sceneZ / 2),
+      scale: Vector3.create(sceneX, sceneY, sceneZ),
+      parent: skyboxRoot
     })
-  })
+    MeshRenderer.setPlane(skyboxPZ)
+    Material.setBasicMaterial(skyboxPZ, {
+      texture: Material.Texture.Common({
+        src: 'images/skybox/' + folderNumber + '/pz.png'
+      })
+    })
 
-  //back
-  let skyboxNZ = engine.addEntity()
-  Transform.create(skyboxNZ, {
-    position: Vector3.create(0, 0, -sceneZ / 2),
-    rotation: Quaternion.fromEulerDegrees(0, 180, 0),
-    scale: Vector3.create(sceneX, sceneY, sceneZ),
-    parent: skyboxRoot
-  })
-  MeshRenderer.setPlane(skyboxNZ)
-  Material.setBasicMaterial(skyboxNZ, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/nz.png'
+    //back
+    let skyboxNZ = engine.addEntity()
+    Transform.create(skyboxNZ, {
+      position: Vector3.create(0, 0, -sceneZ / 2),
+      rotation: Quaternion.fromEulerDegrees(0, 180, 0),
+      scale: Vector3.create(sceneX, sceneY, sceneZ),
+      parent: skyboxRoot
     })
-  })
+    MeshRenderer.setPlane(skyboxNZ)
+    Material.setBasicMaterial(skyboxNZ, {
+      texture: Material.Texture.Common({
+        src: 'images/skybox/' + folderNumber + '/nz.png'
+      })
+    })
 
-  //Top
-  let skyboxPY = engine.addEntity()
-  Transform.create(skyboxPY, {
-    position: Vector3.create(0, sceneY / 2, 0),
-    rotation: Quaternion.fromEulerDegrees(-90, 0, 0),
-    scale: Vector3.create(sceneX, sceneY, sceneZ),
-    parent: skyboxRoot
-  })
-  MeshRenderer.setPlane(skyboxPY)
-  Material.setBasicMaterial(skyboxPY, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/py.png'
+    //Top
+    let skyboxPY = engine.addEntity()
+    Transform.create(skyboxPY, {
+      position: Vector3.create(0, sceneY / 2, 0),
+      rotation: Quaternion.fromEulerDegrees(-90, 0, 0),
+      scale: Vector3.create(sceneX, sceneY, sceneZ),
+      parent: skyboxRoot
     })
-  })
+    MeshRenderer.setPlane(skyboxPY)
+    Material.setBasicMaterial(skyboxPY, {
+      texture: Material.Texture.Common({
+        src: 'images/skybox/' + folderNumber + '/py.png'
+      })
+    })
 
-  //Bottom
-  let skyboxNY = engine.addEntity()
-  Transform.create(skyboxNY, {
-    position: Vector3.create(0, -sceneY / 2, 0),
-    rotation: Quaternion.fromEulerDegrees(90, 0, 0),
-    scale: Vector3.create(sceneX, sceneY, sceneZ),
-    parent: skyboxRoot
-  })
-  MeshRenderer.setPlane(skyboxNY)
-  Material.setBasicMaterial(skyboxNY, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/ny.png'
+    //Bottom
+    let skyboxNY = engine.addEntity()
+    Transform.create(skyboxNY, {
+      position: Vector3.create(0, -sceneY / 2, 0),
+      rotation: Quaternion.fromEulerDegrees(90, 0, 0),
+      scale: Vector3.create(sceneX, sceneY, sceneZ),
+      parent: skyboxRoot
     })
-  })
+    MeshRenderer.setPlane(skyboxNY)
+    Material.setBasicMaterial(skyboxNY, {
+      texture: Material.Texture.Common({
+        src: 'images/skybox/' + folderNumber + '/ny.png'
+      })
+    })
 
-  //Right
-  let skyboxPX = engine.addEntity()
-  Transform.create(skyboxPX, {
-    position: Vector3.create(sceneX / 2, 0, 0),
-    rotation: Quaternion.fromEulerDegrees(0, 90, 0),
-    scale: Vector3.create(sceneX, sceneY, sceneZ),
-    parent: skyboxRoot
-  })
-  MeshRenderer.setPlane(skyboxPX)
-  Material.setBasicMaterial(skyboxPX, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/px.png'
+    //Right
+    let skyboxPX = engine.addEntity()
+    Transform.create(skyboxPX, {
+      position: Vector3.create(sceneX / 2, 0, 0),
+      rotation: Quaternion.fromEulerDegrees(0, 90, 0),
+      scale: Vector3.create(sceneX, sceneY, sceneZ),
+      parent: skyboxRoot
     })
-  })
+    MeshRenderer.setPlane(skyboxPX)
+    Material.setBasicMaterial(skyboxPX, {
+      texture: Material.Texture.Common({
+        src: 'images/skybox/' + folderNumber + '/px.png'
+      })
+    })
 
-  // Left
-  let skyboxNX = engine.addEntity()
-  Transform.create(skyboxNX, {
-    position: Vector3.create(-sceneX / 2, 0, 0),
-    rotation: Quaternion.fromEulerDegrees(0, -90, 0),
-    scale: Vector3.create(sceneX, sceneY, sceneZ),
-    parent: skyboxRoot
-  })
-  MeshRenderer.setPlane(skyboxNX)
-  Material.setBasicMaterial(skyboxNX, {
-    texture: Material.Texture.Common({
-      src: 'images/skybox/' + folderNumber + '/nx.png'
+    // Left
+    let skyboxNX = engine.addEntity()
+    Transform.create(skyboxNX, {
+      position: Vector3.create(-sceneX / 2, 0, 0),
+      rotation: Quaternion.fromEulerDegrees(0, -90, 0),
+      scale: Vector3.create(sceneX, sceneY, sceneZ),
+      parent: skyboxRoot
     })
-  })
+    MeshRenderer.setPlane(skyboxNX)
+    Material.setBasicMaterial(skyboxNX, {
+      texture: Material.Texture.Common({
+        src: 'images/skybox/' + folderNumber + '/nx.png'
+      })
+    })
+  }, 120000) //millisecond delay
+
   //#endregion
-
-
 }

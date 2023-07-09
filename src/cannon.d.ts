@@ -4,7 +4,7 @@
 //                 Grzegorz Rozdzialik <https://github.com/Gelio>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare namespace CANNON {
+declare module 'cannon/build/cannon' {
   export interface IAABBOptions {
     upperBound?: Vec3
     lowerBound?: Vec3
@@ -19,23 +19,9 @@ declare namespace CANNON {
     clone(): AABB
     copy(aabb: AABB): void
     extend(aabb: AABB): void
-    getCorners(
-      a: Vec3,
-      b: Vec3,
-      c: Vec3,
-      d: Vec3,
-      e: Vec3,
-      f: Vec3,
-      g: Vec3,
-      h: Vec3
-    ): void
+    getCorners(a: Vec3, b: Vec3, c: Vec3, d: Vec3, e: Vec3, f: Vec3, g: Vec3, h: Vec3): void
     overlaps(aabb: AABB): boolean
-    setFromPoints(
-      points: Vec3[],
-      position?: Vec3,
-      quaternion?: Quaternion,
-      skinSize?: number
-    ): AABB
+    setFromPoints(points: Vec3[], position?: Vec3, quaternion?: Quaternion, skinSize?: number): AABB
     toLocalFrame(frame: Transform, target: AABB): AABB
     toWorldFrame(frame: Transform, target: AABB): AABB
   }
@@ -56,24 +42,9 @@ declare namespace CANNON {
 
     collisionPairs(world: World, p1: Body[], p2: Body[]): void
     needBroadphaseCollision(bodyA: Body, bodyB: Body): boolean
-    intersectionTest(
-      bodyA: Body,
-      bodyB: Body,
-      pairs1: Body[],
-      pairs2: Body[]
-    ): void
-    doBoundingSphereBroadphase(
-      bodyA: Body,
-      bodyB: Body,
-      pairs1: Body[],
-      pairs2: Body[]
-    ): void
-    doBoundingBoxBroadphase(
-      bodyA: Body,
-      bodyB: Body,
-      pairs1: Body[],
-      pairs2: Body[]
-    ): void
+    intersectionTest(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void
+    doBoundingSphereBroadphase(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void
+    doBoundingBoxBroadphase(bodyA: Body, bodyB: Body, pairs1: Body[], pairs2: Body[]): void
     makePairsUnique(pairs1: Body[], pairs2: Body[]): void
     setWorld(world: World): void
     boundingSphereCheck(bodyA: Body, bodyB: Body): boolean
@@ -88,13 +59,7 @@ declare namespace CANNON {
     aabbMax: Vec3
     bins: any[]
 
-    constructor(
-      aabbMin?: Vec3,
-      aabbMax?: Vec3,
-      nx?: number,
-      ny?: number,
-      nz?: number
-    )
+    constructor(aabbMin?: Vec3, aabbMax?: Vec3, nx?: number, ny?: number, nz?: number)
   }
 
   export class NaiveBroadphase extends BroadPhase {}
@@ -202,13 +167,7 @@ declare namespace CANNON {
   }
 
   export class PointToPointConstraint extends Constraint {
-    constructor(
-      bodyA: Body,
-      pivotA: Vec3,
-      bodyB: Body,
-      pivotB: Vec3,
-      maxForce?: number
-    )
+    constructor(bodyA: Body, pivotA: Vec3, bodyB: Body, pivotB: Vec3, maxForce?: number)
   }
 
   export interface ILockConstraintOptions {
@@ -246,11 +205,7 @@ declare namespace CANNON {
 
     constructor(bi: Body, bj: Body, minForce?: number, maxForce?: number)
 
-    setSpookParams(
-      stiffness: number,
-      relaxation: number,
-      timeStep: number
-    ): void
+    setSpookParams(stiffness: number, relaxation: number, timeStep: number): void
     computeB(a: number, b: number, h: number): number
     computeGq(): number
     computeGW(): number
@@ -390,29 +345,14 @@ declare namespace CANNON {
   }
 
   export class Transform {
-    static pointToLocalFrame(
-      position: Vec3,
-      quaternion: Quaternion,
-      worldPoint: Vec3,
-      result?: Vec3
-    ): Vec3
-    static pointToWorldFrame(
-      position: Vec3,
-      quaternion: Quaternion,
-      localPoint: Vec3,
-      result?: Vec3
-    ): Vec3
+    static pointToLocalFrame(position: Vec3, quaternion: Quaternion, worldPoint: Vec3, result?: Vec3): Vec3
+    static pointToWorldFrame(position: Vec3, quaternion: Quaternion, localPoint: Vec3, result?: Vec3): Vec3
 
     position: Vec3
     quaternion: Quaternion
 
     vectorToWorldFrame(localVector: Vec3, result?: Vec3): Vec3
-    vectorToLocalFrame(
-      position: Vec3,
-      quaternion: Quaternion,
-      worldVector: Vec3,
-      result?: Vec3
-    ): Vec3
+    vectorToLocalFrame(position: Vec3, quaternion: Quaternion, worldVector: Vec3, result?: Vec3): Vec3
   }
 
   export class Vec3 {
@@ -726,11 +666,7 @@ declare namespace CANNON {
   }
 
   export class Box extends Shape {
-    static calculateIntertia(
-      halfExtents: Vec3,
-      mass: number,
-      target: Vec3
-    ): void
+    static calculateIntertia(halfExtents: Vec3, mass: number, target: Vec3): void
 
     boundingSphereRadius: number
     collisionResponse: boolean
@@ -749,13 +685,7 @@ declare namespace CANNON {
 
   export class ConvexPolyhedron extends Shape {
     static computeNormal(va: Vec3, vb: Vec3, vc: Vec3, target: Vec3): void
-    static project(
-      hull: ConvexPolyhedron,
-      axis: Vec3,
-      pos: Vec3,
-      quat: Quaternion,
-      result: number[]
-    ): void
+    static project(hull: ConvexPolyhedron, axis: Vec3, pos: Vec3, quat: Quaternion, result: number[]): void
 
     vertices: Vec3[]
     worldVertices: Vec3[]
@@ -807,12 +737,7 @@ declare namespace CANNON {
       maxDist: number,
       result: any[]
     ): void
-    clipFaceAgainstPlane(
-      inVertices: Vec3[],
-      outVertices: Vec3[],
-      planeNormal: Vec3,
-      planeConstant: number
-    ): Vec3
+    clipFaceAgainstPlane(inVertices: Vec3[], outVertices: Vec3[], planeNormal: Vec3, planeConstant: number): Vec3
     computeWorldVertices(position: Vec3, quat: Quaternion): void
     computeLocalAABB(aabbmin: Vec3, aabbmax: Vec3): void
     computeWorldFaceNormals(quat: Quaternion): void
@@ -823,12 +748,7 @@ declare namespace CANNON {
   }
 
   export class Cylinder extends Shape {
-    constructor(
-      radiusTop: number,
-      radiusBottom: number,
-      height: number,
-      numSegments: number
-    )
+    constructor(radiusTop: number, radiusBottom: number, height: number, numSegments: number)
   }
 
   export interface IHightfield {
@@ -853,24 +773,9 @@ declare namespace CANNON {
     updateMinValue(): void
     updateMaxValue(): void
     setHeightValueAtIndex(xi: number, yi: number, value: number): void
-    getRectMinMax(
-      iMinX: number,
-      iMinY: number,
-      iMaxX: number,
-      iMaxY: number,
-      result: any[]
-    ): void
-    getIndexOfPosition(
-      x: number,
-      y: number,
-      result: any[],
-      clamp: boolean
-    ): boolean
-    getConvexTrianglePillar(
-      xi: number,
-      yi: number,
-      getUpperTriangle: boolean
-    ): void
+    getRectMinMax(iMinX: number, iMinY: number, iMaxX: number, iMaxY: number, result: any[]): void
+    getIndexOfPosition(x: number, y: number, result: any[], clamp: boolean): boolean
+    getConvexTrianglePillar(xi: number, yi: number, getUpperTriangle: boolean): void
   }
 
   export class Particle extends Shape {}
@@ -881,12 +786,7 @@ declare namespace CANNON {
     boundingSphereRadius: number
 
     computeWorldNormal(quat: Quaternion): void
-    calculateWorldAABB(
-      pos: Vec3,
-      quat: Quaternion,
-      min: number,
-      max: number
-    ): void
+    calculateWorldAABB(pos: Vec3, quat: Quaternion, min: number, max: number): void
   }
 
   export class Shape {
@@ -1043,8 +943,4 @@ declare namespace CANNON {
   export interface ICollisionEvent extends IBodyEvent {
     contact: any
   }
-}
-
-declare module 'cannon' {
-  export = CANNON
 }

@@ -51,11 +51,12 @@ export function createCube(x: number, y: number, z: number, spawner = true): Ent
   return entity
 }
 
-
-export function playSound(soundPath: string) {
+// play sound 
+export function playSound(soundPath: string, volume?: number) {
     AudioSource.create(engine.addEntity(), {
       audioClipUrl: soundPath,
       loop: false,
-      playing: true
+      playing: true,
+      volume: 1
     })
 }

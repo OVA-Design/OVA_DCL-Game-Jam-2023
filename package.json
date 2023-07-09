@@ -12,7 +12,8 @@
   },
   "devDependencies": {
     "@dcl/js-runtime": "7.3.0",
-    "@dcl/sdk": "^7.3.0"
+    "@dcl/sdk": "^7.3.0",
+    "@types/cannon": "^0.1.8"
   },
   "engines": {
     "node": ">=16.0.0",
@@ -26,7 +27,6 @@
   },
   "dependencies": {
     "@dcl-sdk/utils": "^1.1.2",
-    "@types/cannon": "^0.1.4",
     "cannon": "github:schteppe/cannon.js"
   },
   "bundleDependencies": [
